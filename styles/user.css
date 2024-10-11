@@ -1,0 +1,27 @@
+
+#user {
+    display: grid;
+    grid-auto-flow: column;
+    grid-area: user;
+    border-radius: 1rem;
+    width: 100%;
+    padding: 1rem;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    h3 {
+        color: var(--gray-600);
+        font: var(--ff-base);
+    }
+    p {
+        color: var(--gray-500);
+        font: var(--ff-base);
+        font-size: 12px;
+        line-height: 140%;
+    }
+    img {
+        width: 3.5rem;
+        height: 100%;
+        object-fit: cover;
+    }
+}

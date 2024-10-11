@@ -1,0 +1,82 @@
+
+#progress {
+    display: grid;
+    grid-auto-flow: column;
+    grid-area: user_progress;
+
+}
+
+.content-progress {
+    display: flex; flex-direction: column;
+    justify-content: space-around;
+    font-family: var(--ff-base);
+    span {
+        color: var(--gray-500);
+        font-family: var(--ff-base);
+        font-size: 10px;
+        line-height: 180%;
+    }
+}
+#user_progress {
+    p {
+        color: var(--gray-500);
+        font-family: var(--ff-base);
+        font-size: 14px;
+        line-height: 180%;
+    }
+    .config-img {
+        width: 4.5rem;
+        height: 4.5rem;
+        object-fit: cover;
+        background: var(--gray-200);
+        border-radius: 999px;
+        flex: none;
+        order: 1;
+        flex-grow: 0;
+    }
+    .item-progress {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+        
+        p {
+            color: var(--gray-500);
+            font-family: var(--ff-base);
+            font-size: 16px;
+            line-height: 140%;
+        }
+    }
+    
+}
+.loading-progress {
+    width: 351px; /* Largura da barra completa */
+    height: 8px; /* Altura da barra */
+    background-color: #DFDCDF; /* Cor de fundo da barra */
+    border-radius: 10px; /* Bordas arredondadas */
+    overflow: hidden; /* Garante que o preenchimento não saia dos limites */
+
+}
+.progress-bar {
+    width: 351px; /* Largura da barra completa */
+    height: 8px; /* Altura da barra */
+    background-color: #DFDCDF; /* Cor de fundo da barra */
+    border-radius: 10px; /* Bordas arredondadas */
+    overflow: hidden; /* Garante que o preenchimento não saia dos limites */
+}
+
+.progress-fill {
+    height: 100%; /* Ocupa toda a altura da barra */
+    background: linear-gradient(to right, #00b894, #0984e3, #6c5ce7, #e84393); /* Gradiente de cores */
+    border-radius: 10px; /* Mantém as bordas arredondadas */
+}
+.progress-text {
+    .barra-progress {
+        display: flex;
+        gap: 1rem;
+    }
+}
+
+
+

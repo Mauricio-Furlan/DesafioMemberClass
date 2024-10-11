@@ -1,0 +1,49 @@
+
+
+@import url(utils.css);
+
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+
+.grid-template {
+    margin-block: 40px;
+    row-gap: 1rem;
+    column-gap: 1.5rem;   
+    width: 57rem;
+    justify-content: center;
+    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    grid-template-areas: 
+    "user info"
+    "history info"
+    "history info"
+    "history user_progress"
+}
+
+
+@media (max-width: 80em) {
+    .grid-template {
+        grid-template-columns: 1fr; /* Altera para uma coluna única */
+        grid-template-areas: 
+            "user"
+            "info"
+            "user_progress"
+            "history";
+        width: 90%; /* Ajuste para ocupar a maior parte da tela */
+        margin-inline: 5rem ; /* Centraliza a grid */
+        margin-top: 0;
+    }
+
+    .card,
+    #user,
+    #history,
+    #info,
+    #user_progress {
+        width: 100%; /* Garante que os elementos ocupem toda a largura disponível */
+    }
+}

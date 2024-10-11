@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div id="container-logo">
+            <img src="./assets/Logo.png" alt="titulo">
+        </div>
+    </header>
+    <section>
+        <div class="input">
+            <input type="input" id="busca" name="busca" required placeholder="ID do cartão"></input>
+            <i onclick="getDataByID()"  style="width: 40px; height: 40px;"><img src="./assets/Button.png" alt="Entere"/></i>
+        </div>
+    </section>
+    <main>
+        <div class="grid-template">
+            <div id="user" class="card">
+                <img id="client-img" src="./assets/init-img.png" alt="">
+                <div class="text-person">
+                    <h3 id="client-name"></h3>
+                    <p id="client-since"></p>
+                </div>
+            </div>
+            <div id="history" class="card">
+                <div class="history-data">
+                <div class="history-header">
+                    <h4>HISTÓRICO</h4>
+                    <spam id="qnt-cut">0 cortes</spam>
+                </div>
+                <hr style="border-top: 0.5px solid var(--gray-200); margin-inline: 0.2rem;"></hr>
+                <div id="history-items"></div>
+            </div>
+        </div>
+            <div id="info">
+                <div class="card" id="card-info"> 
+                    <div class="info-header">
+                        <div class="info-title">
+                            <h5>Cartão Fidelidade</h5>
+                            <p>Ao fazer cortes de cabelo, o décimo sai de graça!</p>
+                        </div>
+                        <span id="show-id">ID: </span>
+                    </div>
+                    <div class="slot">
+                        <div class="item">
+                            <img id="1_img" src="./assets/icons/Item-clear.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img id="2_img" src="./assets/icons/Item-clear.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img id="3_img" src="./assets/icons/Item-clear.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img id="4_img" src="./assets/icons/Item-clear.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img id="5_img" src="./assets/icons/Item-clear.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img id="6_img" src="./assets/icons/Item-clear.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img id="7_img" src="./assets/icons/Item-clear.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img id="8_img" src="./assets/icons/Item-clear.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img id="9_img" src="./assets/icons/Item-clear.png" alt="">
+                        </div>
+                        <div class="item">
+                            <img id="10_img" src="./assets/icons/Item-present.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div id="user_progress">
+                <div class="card" style="display: flex; justify-content: space-around; justify-items: center; padding: 2rem;">
+                    <div class="content-progress">
+                        <p><span style="color: var(--gray-600); font-weight: 600; font-size: 24px;" id="cutsleft">0 </span> cortes restantes</p>
+                        <div style="display: flex; gap: 0.75rem;  align-items: flex-end;">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill" style="width: 0%;"></div> <!-- Ajuste o valor de width para o percentual desejado -->
+                            </div>
+                            <span id="count" style="min-width: 40px;">0 de 0</span>
+                        </div>
+                    </div>
+                    <div class="config-img">
+                        <img src="assets/PinGift.png" alt="">
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        const id = document.getElementById('busca')
+        id.addEventListener('keydown', async (event) => {
+            if (event.key == 'Enter') {
+                await getDataByID()
+            }
+        })
+
+        function validateID(id) {
+            if (typeof id !== 'string' || id.split('-').length !== 4) {
+                return false
+            }
+            return true;
+        }
+        async function getDataByID() {
+            if (!validateID(id.value)) {
+                alert('Dados inválidos');
+                return
+            }
+            fetch(`http://localhost:3333/clients/${id.value}`).then(data => data.text()).then(result => {
+                if (result == 'Not Found') {
+                    alert('Not Found')
+                    return
+                }
+                const jsonData = JSON.parse(result);
+                const diffCompleted = jsonData.loyaltyCard.cutsNeeded - jsonData.loyaltyCard.totalCuts
+                const diffProgress = (jsonData.loyaltyCard.totalCuts / jsonData.loyaltyCard.cutsNeeded) * 100
+                document.getElementById('show-id').textContent = `ID: ${jsonData.id}`
+                document.getElementById('client-img').src = `./assets/${jsonData.id}.png`
+                document.getElementById('client-name').textContent = jsonData.name
+                document.getElementById('client-since').textContent = `Cliente desde ${jsonData.clientSince}`
+                document.getElementById('cutsleft').textContent = diffCompleted;
+                document.getElementById('progress-fill').style.width = `0%`
+                document.getElementById('progress-fill').style.width = `${diffProgress}%`;
+                document.getElementById('count').textContent = `${jsonData.loyaltyCard.totalCuts} de ${jsonData.loyaltyCard.cutsNeeded}`
+
+                if (jsonData.loyaltyCard.totalCuts >= 10) {
+                    alert("“Parabéns! Seu próximo corte é gratuito!”")
+                }
+                for (var i=1; i<=10; ++i) {
+                    var img = document.getElementById(`${i}_img`)
+                    img.src = './assets/icons/Item-clear.png' 
+                }
+                for (var i=1; i<= jsonData.loyaltyCard.cutsNeeded; ++i) {
+                    if (i <= jsonData.loyaltyCard.totalCuts) {
+                        var img = document.getElementById(`${i}_img`)
+                        img.src = './assets/icons/Item.png'
+                        continue
+                    }
+                    if (jsonData.loyaltyCard.cutsNeeded == i) {
+                        var img = document.getElementById(`${i}_img`)
+                        img.src = './assets/icons/Item-present.png'
+                        break
+                    }
+                    var img = document.getElementById(`${i}_img`)
+                    img.src = './assets/icons/Item-clear.png'
+                }
+
+                setHistory(jsonData);
+            }).catch((err) => {
+                console.log('err::: ', err);
+                alert('Erro no servidor')
+            })
+        }
+    
+        function setHistory(data) {
+            const sizeList = data?.appointmentHistory?.length ?? 0;
+            document.getElementById('qnt-cut').textContent = `${sizeList} cortes`
+            const historyDiv = document.getElementById('history-items');
+            historyDiv.innerHTML = '';
+            const historyItems = data.appointmentHistory.map(item =>  {
+                const mainDiv = document.createElement('div');
+                mainDiv.classList = 'history-content';
+                const infoDiv = document.createElement('div');
+                const date = document.createElement('h5');
+                date.textContent = item.date;
+                const time = document.createElement('p');
+                time.textContent = item.time;
+                infoDiv.append(date, time);
+                const imgDiv = document.createElement('div');
+                const img = document.createElement('img');
+                img.src = "./assets/icons/Icons_green.png" ;
+                imgDiv.append(img);
+                mainDiv.append(infoDiv, imgDiv);
+                return mainDiv
+            })
+            historyDiv.append(...historyItems);
+        }
+    
+    
+    </script>
+</body>
+</html>
+
