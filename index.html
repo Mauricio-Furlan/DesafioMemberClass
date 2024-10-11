@@ -122,7 +122,7 @@
                 alert('Dados inválidos');
                 return
             }
-            fetch(`http://localhost:3333/clients/${id.value}`).then(data => data.text()).then(result => {
+            fetch(`https://my-json-server.typicode.com/mauricio-furlan/DesafioMemberClass/clients/${id.value}`).then(data => data.text()).then(result => {
                 if (result == 'Not Found') {
                     alert('Not Found')
                     return
